@@ -1,0 +1,18 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.full-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.my-font {
+    font-size: 5rem;
+}
+
+.player {
+    font-size: 2rem;
+}
