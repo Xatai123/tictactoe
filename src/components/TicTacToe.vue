@@ -54,50 +54,34 @@ export default {
         else this.matrix[m][n] = "o";
         this.isPlayerOneTurn = !this.isPlayerOneTurn;
         this.$forceUpdate();
-        this.isOver();
+        console.log(this.isOver() + " won");
       }
     },
     isOver() {
+      for (let i = 0; i < 3; i++) {
+        if (
+          this.matrix[n][0] == this.matrix[n][1] &&
+          this.matrix[n][0] == this.matrix[n][2]
+        )
+          return this.matrix[n][0];
+      }
+      for (let i = 0; i < 3; i++) {
+        if (
+          this.matrix[0][n] == this.matrix[1][n] &&
+          this.matrix[0][n] == this.matrix[2][n]
+        )
+          return this.matrix[0][n];
+      }
       if (
-        this.matrix[0][0] == this.matrix[0][1] &&
-        this.matrix[0][0] == this.matrix[0][2]
+        this.matrix[0][0] == this.matrix[1][1] &&
+        this.matrix[0][0] == this.matrix[2][2]
       )
         return this.matrix[0][0];
       else if (
-        this.matrix[1][0] == this.matrix[1][1] &&
-        this.matrix[1][0] == this.martix[1][2]
+        this.matrix[2][0] == this.matrix[1][1] &&
+        this.matrix[2][0] == this.matrix[0][2]
       )
-        return this.matrix[1][0];
-      //   else if (
-      //     this.matrix[2][0] == this.matrix[2][1] &&
-      //     this.matrix[2][0] == this.martix[2][2]
-      //   )
-      //     return this.matrix[2][0];
-      //   else if (
-      //     this.matrix[0][0] == this.matrix[1][0] &&
-      //     this.matrix[0][0] == this.martix[2][0]
-      //   )
-      //     return this.matrix[0][0];
-      //   else if (
-      //     this.matrix[0][1] == this.matrix[1][1] &&
-      //     this.matrix[0][1] == this.martix[2][1]
-      //   )
-      //     return this.matrix[0][1];
-      //   else if (
-      //     this.matrix[0][2] == this.matrix[1][2] &&
-      //     this.matrix[0][2] == this.martix[2][2]
-      //   )
-      //     return this.matrix[0][2];
-      //   else if (
-      //     this.matrix[0][0] == matrix[1][1] &&
-      //     this.matrix[0][0] == this.martix[2][2]
-      //   )
-      //     return this.matrix[0][0];
-      //   else if (
-      //     this.matrix[2][0] == this.matrix[1][1] &&
-      //     this.matrix[2][0] == this.martix[0][2]
-      //   )
-      //     return this.matrix[2][0];
+        return this.matrix[2][0];
     },
   },
 };
