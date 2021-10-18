@@ -65,6 +65,7 @@ export default {
         )
           return this.matrix[n][0];
       }
+      //s
       for (let i = 0; i < 3; i++) {
         if (
           this.matrix[0][n] == this.matrix[1][n] &&
