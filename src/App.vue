@@ -1,8 +1,9 @@
 <template>
   <div id="app">
     <div id="nav">
-      <router-link to="/">Game</router-link> |
-      <router-link to="/scoreboard" class="">ScoreBoard</router-link>
+      <router-link to="/" class="text-4xl">TicTacToe</router-link>
+      <!-- |
+      <router-link to="/scoreboard" class="">ScoreBoard</router-link> -->
     </div>
     <router-view />
   </div>
