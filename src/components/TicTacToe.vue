@@ -3,15 +3,15 @@
     <div class="w-1/3">
       <h1 class="text-4xl pb-6">Player 1</h1>
       <h2 class="text-3xl pb-20">Score : {{ playerOneScore }}</h2>
-      <h2 v-if="isPlayerOneTurn" class="text-3xl">Your Turn</h2>
+      <h2 v-if="player == 1" class="text-3xl">Your Turn</h2>
     </div>
     <div class="w-1/3 container mx-auto">
       <div class="grid grid-cols-3">
-        <template v-for="m in 3">
+        <template v-for="m in size">
           <div
-            v-for="n in 3"
-            :key="(m - 1) * 3 + n"
-            :class="classGenerator((m - 1) * 3 + n)"
+            v-for="n in size"
+            :key="(m - 1) * size + n"
+            :class="classGenerator((m - 1) * size + n)"
             class="cursor-pointer border-black h-32 full-center text-8xl"
             @click="makeMove(m, n)"
           >
@@ -23,7 +23,7 @@
     <div class="w-1/3">
       <h1 class="text-4xl pb-6">Player 2</h1>
       <h2 class="text-3xl pb-20">Score : {{ playerTwoScore }}</h2>
-      <h2 v-if="!isPlayerOneTurn" class="text-3xl">Your Turn</h2>
+      <h2 v-if="player == -1" class="text-3xl">Your Turn</h2>
     </div>
   </div>
 </template>
@@ -32,21 +32,17 @@
 export default {
   data() {
     return {
-      winner: "",
+      size: 3,
+      player: 1,
+      moves: 0,
       playerOneScore: 0,
       playerTwoScore: 0,
-      isPlayerOneTurn: true,
       matrix: new Array(3).fill().map(() => new Array(3).fill("")),
+      rows: new Array(3).fill(0),
+      cols: new Array(3).fill(0),
+      diagonal: 0,
+      antiDiagonal: 0,
     };
-  },
-  watch: {
-    matrix: {
-      handler: function (val) {
-        console.log("ATC");
-        console.log(val);
-      },
-      deep: true,
-    },
   },
   methods: {
     classGenerator(k) {
@@ -57,44 +53,41 @@ export default {
       else if (k % 3 == 0) res += " border-l-2";
       return res;
     },
+    initGame() {
+      this.matrix = new Array(3).fill().map(() => new Array(3).fill(""));
+      this.cols = new Array(3).fill(0);
+      this.rows = new Array(3).fill(0);
+      this.diagonal = 0;
+      this.antiDiagonal = 0;
+      this.moves = 0;
+    },
     makeMove(m, n) {
       m--;
       n--;
       if (this.matrix[m][n] == "") {
-        if (this.isPlayerOneTurn) this.matrix[m][n] = "x";
-        else this.matrix[m][n] = "o";
-        this.isPlayerOneTurn = !this.isPlayerOneTurn;
-        this.$forceUpdate();
-        if (this.isOver()) {
-          if (this.winner == "x") this.playerOneScore++;
-          this.matrix = new Array(3).fill().map(() => new Array(3).fill(""));
-        }
-      }
-    },
-    isOver() {
-      for (let i = 0; i < 3; i++)
-        if (
-          this.matrix[i][0] == this.matrix[i][1] &&
-          this.matrix[i][0] == this.matrix[i][2]
-        )
-          return (this.winner = this.matrix[i][0]) != "";
-      for (let j = 0; j < 3; j++)
-        if (
-          this.matrix[0][j] == this.matrix[1][j] &&
-          this.matrix[0][j] == this.matrix[2][j]
-        )
-          return (this.winner = this.matrix[0][j]) != "";
+        this.moves++;
+        this.matrix[m][n] = this.player == 1 ? "x" : "o";
+        let i = this.player == 1 ? 1 : -1;
+        this.rows[m] += i;
+        this.cols[n] += i;
+        if (n == m) this.diagonal += i;
+        if (n == 3 - m - 1) this.antiDiagonal += i;
 
-      if (
-        this.matrix[0][0] == this.matrix[1][1] &&
-        this.matrix[0][0] == this.matrix[2][2]
-      )
-        return (this.winner = this.matrix[0][0]) != "";
-      else if (
-        this.matrix[2][0] == this.matrix[1][1] &&
-        this.matrix[2][0] == this.matrix[0][2]
-      )
-        return (this.winner = this.matrix[2][0]) != "";
+        if (
+          Math.abs(this.rows[m]) == 3 ||
+          Math.abs(this.cols[n]) == 3 ||
+          Math.abs(this.diagonal) == 3 ||
+          Math.abs(this.antiDiagonal) == 3
+        ) {
+          if (this.player == 1) this.playerOneScore++;
+          else this.playerTwoScore++;
+          this.initGame();
+        } else if (this.moves == 9) {
+          this.initGame();
+        }
+        this.player *= -1;
+        this.$forceUpdate();
+      }
     },
   },
 };
