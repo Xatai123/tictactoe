@@ -24,7 +24,7 @@
     </div>
     <div class="w-1/4 bg-blue-300">
       <h1 class="text-4xl pb-6 pt-16">{{ $store.state.playerTwo }}</h1>
-      <h2 class="text-3xl pb-20">Score : {{ playerTwoScore }}</h2>
+      <h2 class="text-3xl pb-20">Score : {{ $store.state.playerTwoScore }}</h2>
       <h2 v-if="player == -1" class="text-3xl">Your Turn</h2>
     </div>
   </div>
