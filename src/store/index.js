@@ -7,7 +7,9 @@ export default new Vuex.Store({
   state: {
     size: 4,
     playerOne: "Xatai",
-    playerTwo: "Player 2"
+    playerTwo: "Player 2",
+    playerOneScore: 0,
+    playerTwoScore: 0,
   },
   mutations: {
     setSize(state, size) {
@@ -18,6 +20,12 @@ export default new Vuex.Store({
     },
     setPlayerTwo(state, name) {
       state.playerTwo = name
+    },
+    setPlayerOneScore(state) {
+      state.playerOneScore++;
+    },
+    setPlayerTwoScore(state) {
+      state.playerTwoScore++;
     }
   },
   actions: {

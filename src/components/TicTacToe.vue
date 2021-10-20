@@ -2,7 +2,7 @@
   <div class="cm-container flex justify-between flex-wrap mx-auto">
     <div class="w-1/4 bg-red-300">
       <h1 class="text-4xl pb-6 pt-16">{{ $store.state.playerOne }}</h1>
-      <h2 class="text-3xl pb-20">Score : {{ playerOneScore }}</h2>
+      <h2 class="text-3xl pb-20">Score : {{ $store.state.playerOneScore }}</h2>
       <h2 v-if="player == 1" class="text-3xl">Your Turn</h2>
     </div>
     <div class="w-2/4">
@@ -40,8 +40,8 @@ export default {
       size: this.$store.state.size,
       player: 1,
       numberOfMoves: 0,
-      playerOneScore: 0,
-      playerTwoScore: 0,
+      playerOneScore: this.$store.state.playerOneScore,
+      playerTwoScore: this.$store.state.playerTwoScore,
       matrix: new Array(),
       rows: new Array(),
       cols: new Array(),
@@ -93,8 +93,8 @@ export default {
           Math.abs(this.diagonal) == this.size ||
           Math.abs(this.antiDiagonal) == this.size
         ) {
-          if (this.player == 1) this.playerOneScore++;
-          else this.playerTwoScore++;
+          if (this.player == 1) this.$store.commit("setPlayerOneScore");
+          else this.$store.commit("setPlayerTwoScore");
           this.initGame();
           this.showAlert();
         } else if (this.moves == this.size ** 2) {
