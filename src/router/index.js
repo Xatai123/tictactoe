@@ -11,9 +11,9 @@ const routes = [
     component: Home
   },
   {
-    path: '/scoreboard',
-    name: 'Scoreboard',
-    component: () => import('../views/Scoreboard.vue')
+    path: '/game',
+    name: 'Game',
+    component: () => import('../views/Game.vue')
   }
 ]
 

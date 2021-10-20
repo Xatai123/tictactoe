@@ -1,0 +1,28 @@
+/* ./src/index.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+    margin: 0;
+    padding: 0;
+}
+.full-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cm-container {
+    width: 1200px;
+    height: 600px;
+}
+
+.cm-input {
+    padding: 4px 7px;
+    &::placeholder {
+        color: black;
+    }
+    border: 1px solid lightgray;
+    border-radius: 3px;
+}
