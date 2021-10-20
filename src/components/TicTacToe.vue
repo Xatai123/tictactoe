@@ -1,7 +1,7 @@
 <template>
-  <div class="flex justify-between flex-wrap container">
+  <div class="cm-container flex justify-between flex-wrap mx-auto">
     <div class="w-1/4 bg-red-300">
-      <h1 class="text-4xl pb-6 pt-16">Player 1</h1>
+      <h1 class="text-4xl pb-6 pt-16">{{ $store.state.playerOne }}</h1>
       <h2 class="text-3xl pb-20">Score : {{ playerOneScore }}</h2>
       <h2 v-if="player == 1" class="text-3xl">Your Turn</h2>
     </div>
@@ -11,7 +11,7 @@
           <div
             v-for="n in size"
             :key="(m - 1) * size + n"
-            :style="{ height: 640 / size + 'px', width: 640 / size + 'px' }"
+            :style="{ height: 600 / size + 'px', width: 600 / size + 'px' }"
             :class="`cursor-pointer border-black full-center ${
               size < 8 ? 'text-8xl' : 'text-4xl'
             } ${classGenerator((m - 1) * size + n)}`"
@@ -23,7 +23,7 @@
       </div>
     </div>
     <div class="w-1/4 bg-blue-300">
-      <h1 class="text-4xl pb-6 pt-16">Player 2</h1>
+      <h1 class="text-4xl pb-6 pt-16">{{ $store.state.playerTwo }}</h1>
       <h2 class="text-3xl pb-20">Score : {{ playerTwoScore }}</h2>
       <h2 v-if="player == -1" class="text-3xl">Your Turn</h2>
     </div>
@@ -37,9 +37,9 @@ export default {
   },
   data() {
     return {
-      size: 4,
+      size: this.$store.state.size,
       player: 1,
-      moves: 0,
+      numberOfMoves: 0,
       playerOneScore: 0,
       playerTwoScore: 0,
       matrix: new Array(),
@@ -50,12 +50,14 @@ export default {
     };
   },
   methods: {
-    showWinAlert() {
-      let name = this.player > 0 ? 1 : 2;
-      this.$swal("Player " + name + " won!!!");
-    },
-    showDrawAlert() {
-      this.$swal("Its a draw!");
+    showAlert(isWin = true) {
+      if (isWin) {
+        let name =
+          this.player > 0
+            ? this.$store.state.playerOne
+            : this.$store.state.playerTwo;
+        this.$swal(name + " won!!!");
+      } else this.$swal("Its a draw!");
     },
     classGenerator(k) {
       let res = "";
@@ -94,10 +96,10 @@ export default {
           if (this.player == 1) this.playerOneScore++;
           else this.playerTwoScore++;
           this.initGame();
-          this.showWinAlert();
-        } else if (this.moves == this.size * this.size) {
+          this.showAlert();
+        } else if (this.moves == this.size ** 2) {
           this.initGame();
-          this.showDrawAlert();
+          this.showAlert(false);
         }
         this.player *= -1;
         this.$forceUpdate();

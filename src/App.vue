@@ -2,11 +2,14 @@
   <div id="app">
     <div id="nav" class="text-3xl">
       <router-link to="/">Home</router-link> |
-      <router-link to="/Game">Game</router-link>
+      <router-link to="/game">Game</router-link>
     </div>
     <router-view />
   </div>
 </template>
+
+<script>
+</script>
 
 <style lang="scss">
 #app {
